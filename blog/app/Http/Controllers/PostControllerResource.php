@@ -14,7 +14,20 @@ class PostControllerResource extends Controller
     public function index()
     {
         //menampilkan nilai dari return
-        return 'Hello, ini methode index dalam PostControllerResource';
+        //return 'Hello, ini methode index dalam PostControllerResource';
+        //data array untuk postingan
+        $posts = [
+            ['id'=>'1','title'=>'Post 1', 'body'=>'body post in id 1'],
+            ['id'=>'2','title'=>'Post 2', 'body'=>'body post in id 2'],
+            ['id'=>'3','title'=>'Post 3', 'body'=>'body post in id 3'],
+            ['id'=>'4','title'=>'Post 4', 'body'=>'body post in id 4'],
+        ];
+
+        /*
+        memanggil halaman index.blade dengan memanggil variabel yang ada,
+        dengan menambahkan parameter compact memanggil var tanpa $
+        */
+        return view ('index', compact('posts'));
     }
 
     /**
