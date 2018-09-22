@@ -13,7 +13,8 @@ class PostControllerResource extends Controller
      */
     public function index()
     {
-        //
+        //menampilkan nilai dari return
+        return 'Hello, ini methode index dalam PostControllerResource';
     }
 
     /**
@@ -23,7 +24,8 @@ class PostControllerResource extends Controller
      */
     public function create()
     {
-        //
+        //menampilkan resources dari create.blade.php
+        return view('create');
     }
 
     /**
@@ -34,7 +36,8 @@ class PostControllerResource extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //memunculkan data dump and day dari seluruh request user
+        return dd($request->all());
     }
 
     /**
@@ -45,7 +48,8 @@ class PostControllerResource extends Controller
      */
     public function show($id)
     {
-        //
+        //memanggil halaman show
+        return 'Ini halaman show dengan id : ' . $id;
     }
 
     /**
@@ -56,7 +60,8 @@ class PostControllerResource extends Controller
      */
     public function edit($id)
     {
-        //
+        //memanggil halaman edit
+        return 'Ini halaman edit dengan id : ' . $id;
     }
 
     /**

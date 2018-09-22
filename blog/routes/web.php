@@ -25,12 +25,17 @@ Route::get('/blog', 'PostController@index');
 //membuat route untuk create post
 Route::get('/post/create','PostController@create');
 Route::post('/post/store','PostController@store');
-
-
 Route::post('/post/store','PostController@store');
 
+//membuat route untuk menampilkan array dari controller
 Route::get('/post/{id}', ['as'=>'post.detail', function($id){
     echo "Post $id";
     echo "</br>";
     echo "Body Post in ID = $id";
 }]);
+
+/*membuat route untuk CRUD dari penggunaan resource
+tidak memanggil methode dari PostControllerResource karena
+akan memanggil semua method
+*/
+Route::resource('postCRUD', 'PostControllerResource');
