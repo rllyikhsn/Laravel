@@ -24,6 +24,7 @@ Route::get('/about', function(){
 Route::get('/blog', 'PostController@index');
 //membuat route untuk create post
 Route::get('/post/create','PostController@create');
+Route::post('/post/store','PostController@store');
 
 
 Route::post('/post/store','PostController@store');
