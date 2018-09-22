@@ -39,3 +39,29 @@ tidak memanggil methode dari PostControllerResource karena
 akan memanggil semua method
 */
 Route::resource('postCRUD', 'PostControllerResource');
+
+
+/* membuat operasi create , Route methode GET
+closure
+*/
+Route::get('/insert', function () {
+    /* memanggil class db dan method insert */
+    
+    /* Method Versi 1
+    DB::insert('insert into posts (title, body, user_id) values (?, ?, ?)', ['Belajar php dengan laravel',
+    'laravel the best framework','1']); 
+    */
+
+    /* Method Versi 2 dengan chain method insert dengan data yang ingin diisi
+    Penggunaan array key sesuai degan field yang digunakan table
+    */
+    $data = [
+        'title'=>'Disini isian title',
+        'body'=>'Disini isian body',
+        'user_id'=>2
+    ];
+    /* class db sebagai query builder */
+    DB::table('posts')->insert($data);
+    echo "Data Berhasil Ditambah";
+    
+});
