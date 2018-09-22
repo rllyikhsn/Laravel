@@ -11,7 +11,9 @@
     @if(count($posts) > 0)
         <ul>
             @foreach($posts as $post)
-                <li>{{ $post['title'] }}</li>
+                <a href="{{ route('postCRUD.show', $post['id']) }}">
+                    <li>{{ $post['title'] }}</li>
+                </a>
             @endforeach
         </ul>
         @else
