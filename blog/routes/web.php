@@ -87,3 +87,28 @@ Route::get('/read', function () {
     */
     return var_dump($query,"<br>",$query1,"<br>",$query2);
 });
+
+/* membuat operasi update */
+Route::get('/update', function () {
+    /* Method Versi 1
+    $update = DB::update('update posts set title = "Update FIeld Title" 
+    where id = ?', [1]); */
+
+    /* Method Versi 2 */
+    $data = [
+        'title'=>'Isian Title',
+        'body'=>'Isian Body'
+    ];
+    $updated = DB::table('posts')->where('id',1)->update($data);
+    return $updated;
+});
+
+/* Membuat operasi Delete */
+Route::get('/delete', function () {
+    /* Method Versi 1
+    $delete = DB::delete('delete from posts where id = ?', [1]); 
+    */
+
+    $delete = DB::table('posts')->where('id',2)->delete();
+    return $delete;
+});
