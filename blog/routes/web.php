@@ -65,3 +65,25 @@ Route::get('/insert', function () {
     echo "Data Berhasil Ditambah";
     
 });
+/* membuat opreasi read, Route method GET */
+Route::get('/read', function () {
+    /* menyimpan hasil select database ke dalam variabel */
+    
+    /* Method Versi 1
+    $query = DB::select('select * from posts where id = ?', [1]); 
+    */
+
+    /* Method Versi 2 
+    Menggunakan chain method memanggil dengan tipe data array
+    */
+    $query = DB::table('posts')->select('title','body')->where('id',1)->get();
+
+    $query1 = DB::table('posts')->where('id',2)->get();
+
+    /* memanggil dengan tipe data objek */
+    $query2 = DB::table('posts')->where('id',2)->first();
+    /* 
+    melakukan nilai balik dengan return method vardump agar lebih jelas 
+    */
+    return var_dump($query,"<br>",$query1,"<br>",$query2);
+});
