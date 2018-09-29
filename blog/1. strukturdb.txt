@@ -1,0 +1,44 @@
+1. Definisi Table
+- user (email,password) x ->sudah ada
+
+- category (id, name, slug)
+    membuat migration :
+        php artisan make:migration create_categories_table
+    membuat field pada file migration :
+        $table->string('name');
+        $table->string('slug');
+
+    membuat model tiap" tabel untuk berinteraksi:
+        php artisan make:model Category
+
+- posts (id, category_id, title, slug, content)
+    membuat model dan migration bersamaan :
+        php artisan make:model Post -m
+        $table->integer('category_id')->unsigned();
+        $table->string('title');
+        $table->string('slug');
+        $table->text('content');
+    
+    Definisi Keterhubungan table foreign key :
+        $table->foreign('category_id')->references('id')->on('categories')->onDelete('CASCADE');
+        
+
+- comment (id, post_id, user_id, message)
+    membuat model dan migration bersamaan :
+        php artisan make:model Comment -m
+
+    Definisi Keterhubungan table foreign key :
+        $table->foreign('post_id')->references('id')->on('posts')->onDelete('CASCADE');
+        $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
+
+membuatnya dengan migration :
+    database/migrations/
+
+menjalankan migration agar table terbuat :
+    php artisan migrate
+
+menjalankan artisan :
+    php artisan serve
+
+menggenerated authentication dari data yang dibuat :
+    php artisan make:auth

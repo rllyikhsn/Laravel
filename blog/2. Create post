@@ -1,0 +1,118 @@
+2. Membuat Create Post
+
+membuat PostController lokasi (app/http/controller) :
+    php artisan make:controller PostController
+    //membuat fungsi/method menampilkan Write.blog
+    public function create()
+    {
+        //untuk menampilkan view
+        return view('post.create');
+    }
+
+membuat route lokasi (routes/web)
+    //membuat routing/perpindahan ke "/post/create = blade.php", lalu memanggil controller
+    PostController@ "method:create" untuk menampilkan view, menginisialisasi untuk di panggil 
+    di blade.php "post.create"
+    Route::get('/post/create', 'PostController@create')->name('post.create');
+
+membuat navigasi "Write a blog" pada (resource/views/layout/app.blade)
+    //href memanggil route dengan inisial nama yang sudah di buat pada route
+    <li class="nav-item"><a class="nav-link" href="{{ route('post.create') }}">Write a Blog</a></li>
+
+membuat folder create.blade.php pada folder post (resources/views)
+    //pembuatan create.blade di gunakan untuk mengembalikan view post.create dan route
+    post/create.blade.php, dengan form action helper route dari inisial route web.php
+    isinya :
+        @extends('layouts.app')
+
+        @section('content')
+            <div class="container">
+                <form action="{{ route('post.store') }}" method="post">
+                    <div class="form-group">
+                        <label for="">Title</label>
+                        <input type="text" class="form-control" name="title" placeholder="Post Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Content</label>
+                        <textarea name="content" id="" class="form-control" cols="30" rows="10" placeholder="Post Content"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Save">
+                    </div>
+                </form>
+            </div>
+        @endsection
+
+membuat function/method baru pada controller untuk menyimpan,
+dan menggunakan model yang sudah di buat :
+    use App\Post; //menggunakan model Post
+    //membuat fungsi/method untuk menyimpan
+    public function store()
+    {
+        Post::create([
+            //menggunakan dictionary dengan helper request dari nama create.blade.php
+            'title' => request('title'),
+            'content' => request('content')
+        ]);
+    }
+
+deklarasi pengisian pada model post :
+    class Post extends Model
+    {
+        //definisi yang boleh diisikan masal
+        protected $fillable = ['title','content'];
+    }
+
+menambahkan routing dengan method post inisial post.store pada (routes/web.php) :
+    Route::post('/post/create', 'PostController@store')->name('post.store');
+
+menambahkan csrf_field pada method post di create.blade.php untuk keamanan :
+    {{ csrf_field() }}
+
+menambahkan kategori id secara manual pada database di table categories
+    1 Laravel laravel
+    2 Sample sample
+
+update controller menampilkan category pada fungsi create() :
+    use App\Category; //menggunakan model Cateogry
+    //menampilkan categories dari class Category
+    $categories = Category::all();
+    //untuk menampilkan view dan melakukan parsing 
+    return view('post.create', compact('categories'));
+
+membuat category serta perulangan pada create.blade.php :
+    {{-- melakukan pemanggilan controler --}}
+    <div class="form-group">
+        <label for="">Category</label>
+        {{-- melaukan pemilihan atau dropdown --}}
+        <select name="categori_id" id="" class="form-control">
+            {{-- pemecahan array dari postcontroller variabel $categories --}}
+            @foreach ($categories as $category)
+                {{-- melakukan pemilihan dari pemecahan categories ke inisial cateogry --}}
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+menambahkan category_id dan slug ke PostController@store :
+    //membuat fungsi/method untuk menyimpan
+    public function store()
+    {
+        Post::create([
+            //menggunakan dictionary dengan helper request dari nama create.blade.php
+            'title' => request('title'),
+            //pengambilan slug dari request title
+            'slug' => str_slug(request('title')),
+            'content' => request('content'),
+            'category_id' => request('categori_id')
+        ]);
+    }
+
+menambahkan perizinan pengisian pada model post.php :
+    class Post extends Model
+    {
+        //definisi yang boleh diisikan masal
+        protected $fillable = ['title','content','category_id','slug'];
+    }
+
+
