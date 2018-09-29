@@ -8,6 +8,17 @@ use App\Category; //menggunakan model Cateogry
 
 class PostController extends Controller
 {
+    //membuat fungsi/method untuk membaca data
+    public function index()
+    {
+        //mengambil semua post ke variabel $posts
+        $posts = Post::all();
+        //daydump untuk menampilkan hasil variabel yang ada
+        //dd($posts);
+        //untuk menampilkan halaman index dan melempar ke variabel posts
+        return view('post.index', compact('posts'));       
+    }
+
     //membuat fungsi/method menampilkan Write.blog
     public function create()
     {
