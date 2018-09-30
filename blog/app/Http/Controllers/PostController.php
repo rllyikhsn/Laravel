@@ -68,4 +68,14 @@ class PostController extends Controller
         //melakukan redirect ke halaman post.index
         return redirect()->route('post.index');
     }
+
+    //membuat fungsi/method untuk menghapus data
+    public function destroy(Post $post)
+    {
+        //menghapus berdasarkan id dengan variabel $post yang sudah diparsing id di routes
+        $post->delete();
+
+        //melakukan proses redirect ke halaman post.index
+        return redirect()->route('post.index');
+    }
 }
