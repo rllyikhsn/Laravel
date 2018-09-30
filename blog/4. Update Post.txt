@@ -1,0 +1,141 @@
+4. Membuat Update atau mengubah data
+
+membuat routing pada (routes/web.php)
+    //mendapatkan data dari get {id} lalu lari ke form edit,
+    dan memanggil method controller @edit dengan inisial post.edit
+    Route::get('/post/{id}/edit', 'PostController@edit')->name('post.edit');
+
+    //melakukan perubaha dari methode @update menggunakan helper patch,
+    dengan inisial post.edit
+    Route::patch('/post/{id}/edit', 'PostController@update')->name('post.update');
+
+membuat method baru di controller :
+    //membuat fungsi/method untuk mengedit dari parameter id
+    public function edit($id)
+    {   
+        //mencari id dari hasil post dimasukkan ke var @post
+        $post = Post::find($id);
+        //menampilkan categories dari class Category
+        $categories = Category::all();
+        //menampilkan view dan melakukan parsing dari variabel post, categories
+        return view('post.edit', compact('post', 'categories'));
+    }
+
+membuat fungsi/method update untuk menyimpan pada PostController :
+    //membuat fungsi/method update untuk menyimpan hasil perubahan sesuai dengan id
+    public function update($id)
+    {
+        //mencari nilai var $post berdasarkan id
+        $post = Post::find($id);
+        /* merubah nilai menggunakan update([array]),
+        perubahan menggunakan key dan dictionary,
+        berdasarkan field => mencari request berdasarkan
+        nama yang ada pada edit.blade.php */
+        $post->update([
+            'title' => request('title'),
+            'category_id' => request('categori_id'),
+            'content' => request('content')
+        ]);
+        
+        //melakukan redirect ke halaman post.index
+        return redirect()->route('post.index');
+    }
+
+    //merubah redirect dari method function store(),
+    ketika selesai dilarikan ke index
+    return redirect()->route('post.index');
+
+membuat file edit.blade.php untuk mencega error penampilan post.edit pada controller,
+dan mendapatkan data dari parameter dan variabel pada PostController@edit
+    (resources/views/post/edit.blade.php)
+    {{-- mengambil header dari layouts/app --}}
+    @extends('layouts/app');
+
+    {{-- memasukkan content  --}}
+    @section('content')
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="card">
+                        {{-- memanggil atribut title dari pemecahan data --}}
+                        <div class="card-header">Edit Post</div>
+                        <div class="card-body">
+                            {{-- melakukan pembuatan form dengan action sesuai dengan kebutuhan,
+                                pada form ini melakukan aksi ke route dengan inisial post.update,
+                                dan melakukan pelemparan value dari parameter id variabel $post,
+                                karena update membutuhkan parameter id --}}
+                            <form action="{{ route('post.update', $post) }}" method="post">
+                                {{-- memanggil token setiap penggunaan form --}}
+                                {{ csrf_field() }}
+                                {{-- memanggil method patch sesuai dengan route(web.php),
+                                    karena pada html tidak disediakan method patch, dan harus
+                                    dipanggil terlebih dahulu --}}
+                                {{ method_field('PATCH') }}
+                                <div class="form-group">
+                                    <label for="">Title</label>
+                                    {{-- value = memberikan nilai default dari parsing variabel $post yang bernilai sesuai dengan route --}}
+                                    <input type="text" class="form-control" name="title" placeholder="Post Title" value="{{ $post->title }}">
+                                </div>
+                                
+                                {{-- melakukan pemanggilan controler --}}
+                                <div class="form-group">
+                                    <label for="">Category</label>
+                                    {{-- melaukan pemilihan atau dropdown --}}
+                                    <select name="categori_id" id="" class="form-control">
+                                        {{-- pemecahan array dari postcontroller variabel $categories --}}
+                                        @foreach ($categories as $category)
+                                            {{-- melakukan pemilihan dari pemecahan categories ke inisial cateogry --}}
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                    
+                                <div class="form-group">
+                                    <label for="">Content</label>
+                                    {{-- {{$post->content}} adalah mengambil nilai dari variabel yang sudah di parsing di controller --}}
+                                    <textarea name="content" id="" class="form-control" cols="30" rows="10" placeholder="Post Content" >{{ $post->content }}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary" value="Save">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endsection
+
+##TIPS##
+membuat post model binding dengan Post $post pada PostController :
+    //membuat fungsi/method untuk mengedit dari parameter id
+    //mengambil model Post $post padahal ini adalah id
+    public function edit(Post $post)
+    {   
+        //menampilkan categories dari class Category
+        $categories = Category::all();
+        //menampilkan view dan melakukan parsing
+        return view('post.edit', compact('post', 'categories'));
+    }
+
+    //membuat fungsi/method update untuk menyimpan hasil perubahan sesuai dengan id
+    public function update(Post $post)
+    {
+        /* merubah nilai menggunakan update([array]),
+        perubahan menggunakan key dan dictionary,
+        berdasarkan field => mencari request berdasarkan
+        nama yang ada pada edit.blade.php */
+        $post->update([
+            'title' => request('title'),
+            'category_id' => request('categori_id'),
+            'content' => request('content')
+        ]);
+        
+        //melakukan redirect ke halaman post.index
+        return redirect()->route('post.index');
+    }
+
+membuat post model binding dengan {{post}} pada routes/web.php :
+    //mengirim {post} yang sebenernya adalah id
+    Route::get('/post/{post}/edit', 'PostController@edit')->name('post.edit');
+    Route::patch('/post/{post}/edit', 'PostController@update')->name('post.update');

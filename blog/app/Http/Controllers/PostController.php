@@ -40,7 +40,32 @@ class PostController extends Controller
             'category_id' => request('categori_id')
         ]);
 
-        return redirect('/home');
+        return redirect()->route('post.index');
     }
 
+    //membuat fungsi/method untuk mengedit dari parameter id
+    public function edit(Post $post)
+    {   
+        //menampilkan categories dari class Category
+        $categories = Category::all();
+        //menampilkan view dan melakukan parsing
+        return view('post.edit', compact('post', 'categories'));
+    }
+
+    //membuat fungsi/method update untuk menyimpan hasil perubahan sesuai dengan id
+    public function update(Post $post)
+    {
+        /* merubah nilai menggunakan update([array]),
+        perubahan menggunakan key dan dictionary,
+        berdasarkan field => mencari request berdasarkan
+        nama yang ada pada edit.blade.php */
+        $post->update([
+            'title' => request('title'),
+            'category_id' => request('categori_id'),
+            'content' => request('content')
+        ]);
+        
+        //melakukan redirect ke halaman post.index
+        return redirect()->route('post.index');
+    }
 }
