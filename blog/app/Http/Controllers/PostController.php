@@ -39,8 +39,9 @@ class PostController extends Controller
             'content' => request('content'),
             'category_id' => request('categori_id')
         ]);
-
-        return redirect()->route('post.index');
+        
+        //fungsi with adalah untuk mentriger dari Flash Message dengan session
+        return redirect()->route('post.index')->with('success', 'Data Berhasil Ditambahkan !');
     }
 
     //membuat fungsi/method untuk mengedit dari parameter id
@@ -65,8 +66,8 @@ class PostController extends Controller
             'content' => request('content')
         ]);
         
-        //melakukan redirect ke halaman post.index
-        return redirect()->route('post.index');
+        //melakukan redirect ke halaman post.index dan melakukan Flash Message
+        return redirect()->route('post.index')->withInfo('Data Berhasil Diubah !');;
     }
 
     //membuat fungsi/method untuk menghapus data
@@ -75,8 +76,8 @@ class PostController extends Controller
         //menghapus berdasarkan id dengan variabel $post yang sudah diparsing id di routes
         $post->delete();
 
-        //melakukan proses redirect ke halaman post.index
-        return redirect()->route('post.index');
+        //melakukan proses redirect ke halaman post.index dan melakukan Flash Message
+        return redirect()->route('post.index')->withDanger('Data Berhasil Dihapus !');
     }
 
     //membuat fungsi/method untuk show detail kontent

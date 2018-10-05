@@ -76,6 +76,8 @@
         </nav>
 
         <main class="py-4">
+            
+            <?php echo $__env->make('layouts.partials._alerts', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             <?php echo $__env->yieldContent('content'); ?>
         </main>
     </div>

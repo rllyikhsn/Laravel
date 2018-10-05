@@ -1,0 +1,41 @@
+9. Membuat Flash Message
+
+membuat _alerts.blade.php message/alert pada views (resources/views/layouts/partials) :
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}    
+        </div>    
+    @endif
+
+    @if (session('info'))
+        <div class="alert alert-info">
+            {{ session('info') }}    
+        </div>    
+    @endif
+
+    @if (session('danger'))
+        <div class="alert alert-danger">
+            {{ session('danger') }}    
+        </div>    
+    @endif
+
+memanggil file _alerts.blade.php pada app.blade.php :
+    {{-- memanggil file _alerts pada folder partials --}}
+    @include('layouts.partials._alerts')
+    @yield('content')
+
+memunculkan pesan alert pada layar dengan mentriger pada PostController :
+    //pada fungsi store
+
+        //fungsi with adalah untuk mentriger dari Flash Message dengan session
+        return redirect()->route('post.index')->with('success', 'Data Berhasil Ditambahkan');
+    
+    //pada fungsi update
+
+        //melakukan redirect ke halaman post.index dan melakukan Flash Message
+        return redirect()->route('post.index')->withInfo('Data Berhasil Diubah');;
+
+    //pada fungsi destroy
+    
+        //melakukan proses redirect ke halaman post.index dan melakukan Flash Message
+        return redirect()->route('post.index')->withDanger('Data Berhasil Dihapus !');

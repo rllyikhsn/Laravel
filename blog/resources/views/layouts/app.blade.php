@@ -74,6 +74,8 @@
         </nav>
 
         <main class="py-4">
+            {{-- memanggil file _alerts pada folder partials --}}
+            @include('layouts.partials._alerts')
             @yield('content')
         </main>
     </div>
