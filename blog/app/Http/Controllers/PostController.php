@@ -78,4 +78,11 @@ class PostController extends Controller
         //melakukan proses redirect ke halaman post.index
         return redirect()->route('post.index');
     }
+
+    //membuat fungsi/method untuk show detail kontent
+    public function show(Post $post)
+    {
+        //menampilkan halaman
+        return view ('post.show', compact('post'));
+    }
 }

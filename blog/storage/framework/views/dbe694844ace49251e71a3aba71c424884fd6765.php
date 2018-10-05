@@ -7,11 +7,13 @@
                     <div class="card">
                         
                         <div class="card-header">
-                            <?php echo e($post->title); ?>
-
+                            
+                            <a href="<?php echo e(route('post.show', $post)); ?>"> <?php echo e($post->title); ?></a>
                             <div class="float-right">
                                 
                                 <form action="<?php echo e(route('post.destroy', $post)); ?>" class="" method="post">
+
+                                    <a href="<?php echo e(route('post.edit', $post)); ?>" class="btn btn-sm btn-primary">Edit</a>
                                     
                                     <?php echo e(csrf_field()); ?>
 
@@ -23,7 +25,8 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <p><?php echo e($post->content); ?></p>
+                            
+                            <p><?php echo e(str_limit($post->content, 100, ' ...')); ?></p>
                         </div>
                     </div><br>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

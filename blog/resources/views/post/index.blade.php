@@ -9,11 +9,14 @@
                     <div class="card">
                         {{-- memanggil atribut title dari pemecahan data --}}
                         <div class="card-header">
-                            {{ $post->title}}
+                            {{-- membuat routing untuk menuju halaman show --}}
+                            <a href="{{ route('post.show', $post) }}"> {{ $post->title}}</a>
                             <div class="float-right">
                                 {{-- melakukan aksi ke inisial post.destroy dengan mengembalikan parameter,
                                     $post sebagai id yang dipilih --}}
                                 <form action="{{ route('post.destroy', $post) }}" class="" method="post">
+
+                                    <a href="{{ route('post.edit', $post) }}" class="btn btn-sm btn-primary">Edit</a>
                                     {{-- menggunakan csrf untuk token laravel --}}
                                     {{ csrf_field() }}
                                     {{-- menggunakan method field "DELETE" pada routes/web.php --}}
@@ -23,7 +26,8 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <p>{{ $post->content }}</p>
+                            {{-- memberikan limit pada kontent, dengan max 100 character, dan dikakhiri ... --}}
+                            <p>{{ str_limit($post->content, 100, ' ...') }}</p>
                         </div>
                     </div><br>
                 @endforeach
