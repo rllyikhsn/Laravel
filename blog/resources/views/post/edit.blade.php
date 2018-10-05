@@ -35,7 +35,14 @@
                                     {{-- pemecahan array dari postcontroller variabel $categories --}}
                                     @foreach ($categories as $category)
                                         {{-- melakukan pemilihan dari pemecahan categories ke inisial cateogry --}}
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option 
+                                        value="{{ $category->id }}" 
+                                        {{-- mengecek kondisi kategory id jika sama post number maka kategori dipilih --}}
+                                        @if ($category->id === $post->category_id)
+                                            selected
+                                        @endif
+                                            >{{ $category->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
