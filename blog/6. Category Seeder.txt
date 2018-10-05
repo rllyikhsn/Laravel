@@ -1,0 +1,50 @@
+6. Membuat seeder
+fungsi dari seeder adalah dapat mengisi data pada database lewat termninal
+
+membersihkan migrate :
+    php artisan migrate:fresh
+
+membuat seeder lewat terminal : lokasi(Database/seeds)
+    php artisan make:seeder CategorySeeder
+
+mengkonfigurasi CategorySeeder.php :
+    //menggunakan model dari Category
+    use App\Category;
+
+    public function run()
+    {
+        //memanggil objek dari model Category untuk menginsert data ke database
+        Category::create([
+            'name' => 'Laravel',
+            'slug' => str_slug('laravel')
+        ]);
+
+        Category::create([
+            'name' => 'Sample',
+            'slug' => str_slug('sample')
+        ]);
+    }
+
+mengkonfigurasi model Category untuk create data :
+    //deklarasi variabel untuk pengisian data, $fillable agar dapat diisi masal
+    protected $fillable = [
+        'name','slug'
+    ];
+
+menjalankan CategorySeeder.php agar masuk kedalam database :
+    php artisan db:seed --class=CategorySeeder
+
+membuat konfigurasi seed menjalankan sekaligus pada DatabaseSeeder :
+    public function run()
+    {
+        //membuat pemanggilan class sesuai seed yang akan dipanggil
+        $this->call(CategorySeeder::class);
+    }
+
+menjalankan semua seed yang ada di DatabaseSeeder :
+    //sebelumnya di bersihkan dulu migratenya 
+    php artisan migrate:fresh
+    //lalu menjalankan seednya
+    php artisan db:seed
+    //membersihkan semua data lalu seeding
+    php artisan migrate:fresh --seed
