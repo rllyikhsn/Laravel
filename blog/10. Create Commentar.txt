@@ -1,0 +1,103 @@
+10. Membuat Komentar pada isi kontent
+
+membuat fungsi agar user lain dapat menambahkan komentar :
+    1. membuat relasi dari model Post
+    //satu post dapat memiliki banyak komentar
+    //membuat relasi satu post banyak comentar
+    public function comments()
+    {
+        //membuat relasi
+        return $this->hasMany(Comment::class);
+    }
+
+    2. membuat invers pada model Comment
+    //invers dari relasi Post
+    public function post()
+    {
+        //membuat relasi 
+        return $this->belongsTo(Post::class);
+    }
+
+membuat form komentar pada show.blade.php :
+    //dibagian bawah setelah kontent
+    <div class="card">
+        {{-- Bagian untuk menambahkan komentar --}}
+        <div class="card-header">Tambahkan Komentar</div>
+        <div class="card-body">
+            {{-- pembuatan form komentar dengan method POST --}}
+            <form action="{{ route('post.comment.store', $post) }}" class="form-horizontal" method="POST">
+                {{-- CSRF field untuk token pada laravel --}}
+                {{ csrf_field() }}
+                {{-- name = field pada table comments di database --}}
+                <textarea name="message" id="" cols="30" rows="5" class="form-control" placeholder="Berikan Komentar ...">
+                </textarea><br>
+                <input type="submit" value="Komentar" class="btn btn-primary">
+            </form>
+        </div>
+    </div><br>
+
+membuat controller baru PostCommentController untuk menambahkan komentar dipost :
+    php artisan make:controller PostCommentController
+    use App\Post; //menggunakan model Post
+    use App\Comment; //menggunakan model Comment
+
+    class PostCommentController extends Controller
+    {
+        //membuat fungsi penyimpanan comment dengan lempar parameter Post=id
+        public function store(Request $request, Post $post)
+        {
+            //melakukan daydump untuk melihat semua debugging dari hasil request post
+            dd(request('message'));
+        }
+    }
+
+membuat route baru untuk proses menyimpan komentar :
+    //Post(/halaman/parameter(id)/halamanygdituju), Menggunakan filecontroller, dengan nama method@'store'
+    //->inisial ('nama inisial untuk digunakan pada formaction ataupun hyperlink')
+    Route::post('/post/{post}/comment', 'PostCommentController@store')->name('post.comment.store');
+
+menyimpan komentar yang sudah dikirim pada PostCommentController :
+    class PostCommentController extends Controller
+    {
+        //membuat fungsi/method penyimpanan comment dengan lempar parameter Post=id
+        public function store(Request $request, Post $post)
+        {
+            //melakukan daydump untuk melihat semua debugging dari hasil request post
+            //dd(request('message'));
+
+            //proses penyimpanan dengan class Comment :: membuat/mnginsert dengan dictionary
+            /* Cara 1 :
+            Comment::create([
+                //nama field pada tabel didapatkan=>
+                //$post =parameter, id=didapatkan dari post_id
+                'post_id' => $post->id,
+                //menggunakan helper authentication, didapatkan dari user_id
+                'user_id' => auth()->id(),
+                //menggunakan helper request/variabel $request, didapatkan dari nilai post message
+                'message' => $request->message
+            ]);
+            */
+
+            //Cara 2 :
+            /* post masuk kerelasi komentar, lalu membuat komentar baru, tanpa pasing post_id, lalu di merge
+            dengan helper request hanya nama textarea 'message', lalu user_id dari helpher authentication
+            dijadikan field id() */
+            $post -> comments() -> create (array_merge(
+                $request->only('message'),
+                ['user_id' => auth() -> id()]
+            ));
+
+            //balik lagi ke halaman show.blade.php
+            return redirect()->back();
+        }
+    }
+
+membuat must asignment pada model di Comment.php :
+    //must asigment dari controller
+    protected $fillable = [
+        //field yang boleh diisi harus didaftarkan
+        'post_id',
+        'user_id',
+        'message'
+    ];
+

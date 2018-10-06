@@ -15,4 +15,11 @@ class Post extends Model
         //mengembalikan nilai dari fungsi category menggunakan relasi 
         return $this->belongsTo(Category::class);
     }
+
+    //membuat relasi satu post banyak comentar
+    public function comments()
+    {
+        //membuat relasi
+        return $this->hasMany(Comment::class);
+    }
 }
