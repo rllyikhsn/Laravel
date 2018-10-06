@@ -8,7 +8,9 @@
                         
                         <div class="card-header">
                             
-                            <a href="<?php echo e(route('post.show', $post)); ?>"> <?php echo e($post->title); ?></a>
+                            <a href="<?php echo e(route('post.show', $post)); ?>"> <?php echo e($post->title); ?></a> | 
+                            <?php echo e($post->created_at->diffForHumans()); ?>
+
                             <div class="float-right">
                                 
                                 <form action="<?php echo e(route('post.destroy', $post)); ?>" class="" method="post">
@@ -30,6 +32,9 @@
                         </div>
                     </div><br>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                <?php echo $posts->render(); ?>
+
             </div>
         </div>
     </div>

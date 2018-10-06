@@ -1,0 +1,19 @@
+14. Membuat pageination
+
+merubah PostController@index :
+    //mengambil post dengan limit paginate dan descending
+    $posts = Post::latest()->paginate(5);
+
+menambahkan keterangan posting pada index.blade.php :
+    {{-- membuat routing untuk menuju halaman show --}}
+    <a href="{{ route('post.show', $post) }}"> {{ $post->title}}</a> | 
+    {{ $post->created_at->diffForHumans() }}
+
+    //menambahkan tabulasi pada bagian bawah pagination di index.blade.php
+    {!! $posts->render() !!}
+
+membuat pagination flexibel dengan environment di PostController :
+    $posts = Post::latest()->paginate(env('PER_PAGE'));
+
+edit .env dan tambahkan PER_PAGE untuk pagination :
+    PER_PAGE = 2

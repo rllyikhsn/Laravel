@@ -12,7 +12,9 @@ class PostController extends Controller
     public function index()
     {
         //mengambil semua post ke variabel $posts
-        $posts = Post::all();
+        //$posts = Post::all();
+        //mengambil post dengan limit paginate dan descending
+        $posts = Post::latest()->paginate(env('PER_PAGE'));
         //daydump untuk menampilkan hasil variabel yang ada
         //dd($posts);
         //untuk menampilkan halaman index dan melempar ke variabel posts

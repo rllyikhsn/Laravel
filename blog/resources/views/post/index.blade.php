@@ -10,7 +10,8 @@
                         {{-- memanggil atribut title dari pemecahan data --}}
                         <div class="card-header">
                             {{-- membuat routing untuk menuju halaman show --}}
-                            <a href="{{ route('post.show', $post) }}"> {{ $post->title}}</a>
+                            <a href="{{ route('post.show', $post) }}"> {{ $post->title}}</a> | 
+                            {{ $post->created_at->diffForHumans() }}
                             <div class="float-right">
                                 {{-- melakukan aksi ke inisial post.destroy dengan mengembalikan parameter,
                                     $post sebagai id yang dipilih --}}
@@ -31,6 +32,8 @@
                         </div>
                     </div><br>
                 @endforeach
+
+                {!! $posts->render() !!}
             </div>
         </div>
     </div>
