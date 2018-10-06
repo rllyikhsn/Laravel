@@ -17,6 +17,17 @@
                 <div class="card">
                     
                     <div class="card-header">Tambahkan Komentar</div>
+
+                    
+                    <?php $__currentLoopData = $post->comments()->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="card-body">
+                            
+                            <h3><?php echo e($comment->user->name); ?> | <?php echo e($comment->created_at->diffForHumans()); ?></h3>
+                            <p><?php echo e($comment->message); ?></p>
+                        </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                    
                     <div class="card-body">
                         
                         <form action="<?php echo e(route('post.comment.store', $post)); ?>" class="form-horizontal" method="POST">

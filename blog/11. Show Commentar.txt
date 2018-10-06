@@ -1,0 +1,12 @@
+11. Menampilkan komentar dari sebuah post kontent
+
+menampilkan komentar pada show.blade.php :
+
+
+membuat relasi untuk menampilkan nama yang sudah komentar pada model Comment.php :
+    //relasi ke user
+    public function user()
+    {
+        //membuat relasi ke user
+        return $this->belongsTo(User::class);
+    }

@@ -21,6 +21,18 @@
                 <div class="card">
                     {{-- Bagian untuk menambahkan komentar --}}
                     <div class="card-header">Tambahkan Komentar</div>
+
+                    {{-- menampilkan komentar --}}
+                    @foreach ($post->comments()->get() as $comment)
+                        <div class="card-body">
+                            {{-- mengambil nama user yang komentar atas relasi yang sudah di buat,
+                                 menampilkan tanggal pembuatan dengan carbon diffForHumans() --}}
+                            <h3>{{ $comment->user->name }} | {{ $comment->created_at->diffForHumans() }}</h3>
+                            <p>{{ $comment->message }}</p>
+                        </div>
+                    @endforeach
+
+                    {{-- memasukkan komentar --}}
                     <div class="card-body">
                         {{-- pembuatan form komentar dengan method POST --}}
                         <form action="{{ route('post.comment.store', $post) }}" class="form-horizontal" method="POST">

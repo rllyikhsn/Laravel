@@ -17,7 +17,14 @@ class Comment extends Model
     //invers dari relasi Post
     public function post()
     {
-        //membuat relasi 
+        //membuat relasi ke post
         return $this->belongsTo(Post::class);
+    }
+
+    //relasi ke user
+    public function user()
+    {
+        //membuat relasi ke user
+        return $this->belongsTo(User::class);
     }
 }
