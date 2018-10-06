@@ -31,6 +31,14 @@ class PostController extends Controller
     //membuat fungsi/method untuk menyimpan
     public function store()
     {
+        //membuat validasi agar tidak error dari hasil request
+        $this->validate(request(),[
+            //field yang digunakan => dibutuhkan
+            'title' => 'required',
+            //field yang digunakan => dibutuhkan|min10character
+            'content' => 'required|min:10',
+        ]);
+
         Post::create([
             //menggunakan dictionary dengan helper request dari nama create.blade.php
             'title' => request('title'),

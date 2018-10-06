@@ -3,9 +3,19 @@
         <form action="<?php echo e(route('post.store')); ?>" method="post">
             <?php echo e(csrf_field()); ?>
 
-            <div class="form-group">
+            
+            <div class="form-group has-feedback<?php echo e($errors->has('title') ? 'has-error' : ''); ?>">
                 <label for="">Title</label>
-                <input type="text" class="form-control" name="title" placeholder="Post Title">
+                
+                <input type="text" class="form-control" name="title" placeholder="Post Title" value="<?php echo e(old('title')); ?>">
+                
+                <?php if($errors->has('title')): ?>
+                    
+                    <span class="label label-danger">
+                        
+                        <p style="color:red"><?php echo e($errors->first('title')); ?></p>
+                    </span>
+                <?php endif; ?>
             </div>
             
             
@@ -21,9 +31,15 @@
                 </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group has-feedback<?php echo e($errors->has('content') ? 'has-error' : ''); ?>">
                 <label for="">Content</label>
-                <textarea name="content" id="" class="form-control" cols="30" rows="10" placeholder="Post Content"></textarea>
+                <textarea name="content" id="" class="form-control" cols="30" rows="10" placeholder="Post Content" ><?php echo e(old('content')); ?></textarea>
+                <?php if($errors->has('content')): ?>
+                    
+                    <span class="label label-danger">
+                        <p style="color:red"><?php echo e($errors->first('content')); ?></p>
+                    </span>
+                <?php endif; ?>
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Save">
