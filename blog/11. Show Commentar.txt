@@ -1,7 +1,15 @@
 11. Menampilkan komentar dari sebuah post kontent
 
 menampilkan komentar pada show.blade.php :
-
+    {{-- menampilkan komentar --}}
+    @foreach ($post->comments()->get() as $comment)
+        <div class="card-body">
+            {{-- mengambil nama user yang komentar atas relasi yang sudah di buat,
+                    menampilkan tanggal pembuatan dengan carbon diffForHumans() --}}
+            <h3>{{ $comment->user->name }} | {{ $comment->created_at->diffForHumans() }}</h3>
+            <p>{{ $comment->message }}</p>
+        </div>
+    @endforeach
 
 membuat relasi untuk menampilkan nama yang sudah komentar pada model Comment.php :
     //relasi ke user
