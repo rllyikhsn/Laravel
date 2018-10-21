@@ -34,3 +34,8 @@ Route::get('/about', function () {
 Route::get('/pendaftaran', function () {
     return view('templates.pages.pendaftaran');
 });
+
+Route::get('/latihantabel', function () {
+    return view('templates.pages.latihantabel');
+});
+
