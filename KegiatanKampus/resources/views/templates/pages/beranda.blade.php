@@ -4,9 +4,9 @@
 <div class="simple-slider">
     <div class="swiper-container">
         <div class="swiper-wrapper">
-            <div data-aos="fade" class="swiper-slide" style="background-image:url(&quot;assets/img/1.jpg&quot;);"></div>
-            <div class="swiper-slide" style="background-image:url(&quot;assets/img/2.jpg&quot;);"></div>
-            <div class="swiper-slide" style="background-image:url(&quot;assets/img/3.jpeg&quot;);"></div>
+            <div data-aos="fade" class="swiper-slide" style="background-image:url('assets/img/1.jpg');"></div>
+            <div class="swiper-slide" style="background-image:url('assets/img/2.jpg');"></div>
+            <div class="swiper-slide" style="background-image:url('assets/img/3.jpeg');"></div>
         </div>
         <div class="swiper-pagination"></div>
         <div class="swiper-button-prev"></div>

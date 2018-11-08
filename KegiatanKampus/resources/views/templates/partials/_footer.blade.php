@@ -27,10 +27,11 @@
         </div>
     </footer>
 </div>
-<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('assets/js/bs-animation.js') }}"></script>
-<script src="{{ asset('assets/js/aos.js') }}"></script>
-<script src="{{ asset('assets/js/lightbox.min.js') }}"></script>
-<script src="{{ asset('assets/js/swiper.jquery.min.js') }}"></script>
-<script src="{{ asset('assets/js/Simple-Slider.js') }}"></script>
+
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bs-animation.js') }}"></script>
+    <script src="{{ asset('assets/js/Simple-Slider.js') }}"></script>
+    <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js') }}"></script>
+    <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js') }}"></script>
+    <script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/js/swiper.jquery.min.js') }}"></script>
